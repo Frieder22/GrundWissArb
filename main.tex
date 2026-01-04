@@ -1,0 +1,109 @@
+%!TeX spellcheck = ger
+
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc} % For utf encoding
+\usepackage[ngerman]{babel} % For german signs
+\usepackage[T1]{fontenc}
+\usepackage{lmodern} % better font
+% \renewcommand*\familydefault{\sfdefault} % serifless
+\usepackage{amsmath} % everything about math
+\usepackage{amssymb} % various special signs
+\usepackage{graphicx} % integrate pictures
+\usepackage{pdfpages} % integrate pdfs
+\pagestyle{empty}
+\usepackage{float} % enables floats (objects that cannot be broken over a page
+\restylefloat{figure}
+\usepackage{caption} % better captions
+\usepackage{geometry} % change sizes of the pages
+\usepackage[numbib,nottoc]{tocbibind} % table of contents
+\usepackage{cite} % citing
+\usepackage{hyperref}
+% Space for some Declarations
+
+\geometry{
+left=3cm,
+right=3cm,
+top=3cm,
+bottom=3cm,
+% bindingoffset=10mm
+}
+
+%\renewcaptionname{ngerman}{\figurename}{Abb.}
+%\renewcaptionname{ngerman}{\tablename}{Tab.}
+
+\begin{document}
+\newgeometry{
+left=4cm,
+right=4cm,
+top=6cm,
+bottom=4cm,
+bindingoffset=5mm
+}
+
+\begin{titlepage}
+\thispagestyle{empty} 
+\begin{center} 
+\vspace{5.0cm} 
+\textbf{
+	\Huge Die Fehlvorstellung eines globalen Minimum des Testfehlers bei statistischen Modellen
+} \\\vspace{1cm}
+
+von\\ \vspace{0.2cm}
+{\Large Frieder Wolpert-Veit}\\ \vspace{1cm}
+
+
+für die Veranstaltung\\
+{\Large Grundlagen wissenschaftlichen Arbeitens} \\ \vspace{1cm}
+
+an der \\ \vspace{0.2cm}
+{\Large TU Wien}
+
+\vspace{4cm}
+\includegraphics[width = 4cm]{TU_Signet_transparent_300dpi_RGB.png}
+
+
+\end{center}
+\end{titlepage} %Ende der Titelseite
+\restoregeometry
+
+\newpage
+
+
+
+
+\section{Einleitung}
+In diesem Essay wollen wir eine grundsätzliche Fehlvorstellung aus dem Bereich der Statistik und des maschinellem Lernen aufklären. Diese Fehlvorstellung rührt aus der Beobachtung einer Metrik (genannt \emph{Test-Fehler}) in Abhängigkeit einer anderen Metrik (genannt \emph{Komplexität}). Es wurde durch Experimente gezeigt, dass der Test-Fehler sowohl für kleine als auch für große Komplexitäten recht hoch sei und dazwischen sich ein globales Minimum befinde. Diese Anschauung wird auch noch heute in Lehrbüchern und Vorlesungen so beschrieben. In der aktuellen Forschung ist man aber weiter und benutzt ein anderes vollständigeres Bild um eine optimale Komplexität zu finden. Man hat erkannt, dass für eine hohe Komplexität der Test-Fehler im Allgemeinen zu nimmt, jedoch irgendwann ein Maximum erreicht und danach wieder abnimmt. Es gibt auch einige Szenarien, in denen der Test-Fehler das ursprüngliche Minimum unterschreitet. \\
+Dieses neu beobachtete Phänomen wird \emph{double-descent} genannt. Es ist offensichtlich nur eine Erweiterung der alten Denkweise, hat aber deutlich andere Implikationen, da sich bessere statistische Modelle finden lassen können, als man zuvor angenommen hatte. 
+
+\section{Hintergrund zu statistischen Modellen}
+Um ein genaueren Einblick in die Thematik zu bekommen, wollen wir hier zunächst eine kleine Basis schaffen. Zuerst wollen wir erklären, was statistische Modelle sind. Eine Definition von Cox \cite{Cox_2006} gibt an, dass ein statistisches Modell "den Daten generierenden Prozess repräsentiert". Gemeint ist damit, dass ein solches Modell neue Daten erzeugen kann, wie wir es auch von einer ursprünglichen Messung erwarten würden. Eine wichtige Folge davon ist, dass ein statistisches Modell neue Vorhersagungen treffen kann.\\
+Ein einfaches Beispiel aus der Physik, wäre beispielsweise die Messung der Höhe in Abhängigkeit der Zeit eines fallenden Steines. Sowohl die Messung der Zeit, als auch die Messung des Ortes, ist immer fehlerbehaftet und streut deshalb etwas um die 'wahren' Werte. Nun erkennen wir aus den Messdaten einen quadratischen Zusammenhang zwischen Zeit und Höhe. In diesem Fall können wir auch durch eine mathematische Theorie (in diesem Fall die Newtonsche Gesetze) einen quadratischen Zusammenhang postulieren. Nun kann jedenfalls eine Parabel an aufgetragene Datenpunkte angepasst werden und wir können für Zeiten, die wir nicht gemessen haben neue Werte vorhersagen.\\
+In dem angeführten Beispiel sind wir von einer Theorie ausgegangen, die einen quadratischen Zusammenhang erklärt, bzw. es sei ein bestimmter Zusammenhang erkennbar. Beides ist in komplexeren Anwendungsbereichen nicht gegeben. Auch wie eine Funktion (in vorherigem Falle eine Parabel) an Datenpunkte angepasst werden kann, ohne dass ein Mensch eine ungefähre Linie zeichnet, ist noch nicht geklärt. Daher wollen wir ein etwas allgemeineres, aber immer noch leicht verständliches Beispiel anführen.\\
+Angenommen wir haben $n$ Datenpunkte $(x_i, y_i)$ und gehen davon aus, dass es einen Zusammenhang $f(x)=y$ gibt. Außerdem wollen wir möglichst gute Vorhersagen für $x$ treffen, die wir noch nicht in unserem Datensatz haben. Dann können wir die Funktion $f$ durch ein Polynom 
+\begin{align*}
+    p(x) = \sum_{i=j}^N a_j\cdot x^j
+\end{align*}
+annähern. Der Grad des Polynoms ist dabei offensichtlich $N$ und es gibt mit $a_0,\dots, a_{N}$ insgesamt $N+1$ freie Parameter. Wir benötigen nun eine Regel, die dafür sorgt, dass das Polynom möglichst gut an die Daten anpasst wird. Dafür wird eine Fehlerfunktion definiert. Für dieses Beispiel nutzen wir die Mean-Squared-Error(MSE) Funktion
+\begin{align}
+    MSE = \frac{1}{n}\sum_{i=1}^n (\hat{y}_i - y_i)^2, \label{MSE}
+\end{align}
+die einer der bekanntesten Fehlerfunktionen ist\cite{MSE}.
+Dabei sind $\hat{y}_i$ die Vorhersagen unseres Modells für die bekannten $x_i$. Da das Polynom $p(x)$ unsere Vorhersage zu einem Wert $x$ ist, ist $\hat{y}_i = p(x_i)$. Die Fehlerfunktion \ref{MSE} summiert daher die quadratischen Abstände zwischen ursprünglichen und vorhergesagten Werten auf und normiert sie mit der Anzahl der Datenpunkte $n$. Intuitiv erhalten wir daher nun 
+eine Funktion die monoton steigt je weiter die vorhergesagten Werte von den tatsächlichen entfernt liegt. Diese (Fehler-)Funktion gilt es nun zu minimieren. Dies soll über Anpassungen der  Parameter geschehen, also können wir das Problem als
+\begin{align}
+    \min_{\{a_0,\dots, a_{N}\}}  \frac{1}{n}\sum_{i=1}^n (\hat{y}_i - y_i)^2 \label{LMSE}
+\end{align}
+schreiben. Oft wird der Faktor $\frac{1}{n}$ weggelassen, was dann der \emph{Methode der kleinsten Quadrate} entspricht \cite{LMSE}. Ein solches Minimierungsproblem wie aus Gleichung\ref{LMSE} kann auf verschiedene Arten gelöst werden. In unserem genannten Fall ist das sogar analytisch möglich, in dem man einfach nach den Gewichten ableitet und eine Nullstelle in der Ableitung sucht\cite{LMSE}. Eine gängige Methode für komplexere Probleme ist der sogenannte \emph{gradient descent} (dt. Gradientenabstieg) \cite{Hollstein2023}. Hier wird iterativ die Ableitung nach den Parametern numerisch lokal angenähert und durch Bewegen des aktuellen Parameter-Vorschlags in Richtung des absteigenden Gradienten versucht, ein globales Minimum zu finden. Um ein möglichst globales Minimum zu finden gibt es verschiedenste Abwandlungen von diesem Algorithmus \cite{Hollstein2023}, auf die hier aber nicht explizit eingegangen wird.\\
+Die Ideen, die hier anhand eines recht einfachen Beispiels vorgestellt werden, gelten aber auch für komplexe Probleme. Beispielsweise können Bilder klassifiziert werden. Dafür werden statt eines simplen Polynoms künstliche Neuronales Netze jeglicher Art verwendet \cite{paternRec}. Es gibt auch andere Fehlerfunktionen, die für verschiedene Einsatzbereiche unterschiedlich gute Ergebnisse liefern. Auch die verwendeten Strategien um ein Minimum der Fehlerfunktion zu verwenden variieren. Für dieses Essay ist jedenfalls das Konzept wichtig, dass an statistisch gestreute Daten ein Model angepasst wird indem die Parameter so verändert werden, dass eine Fehlerfunktion minimiert wird. Damit erwartet man, dass das Modell danach für neue Daten gute Vorhersagen treffen kann.
+
+\section{Finden des passenden Modell: Underfitting und Overfitting}
+In vorherigem Abschnitt wurde ein Aspekt auf die Seite geschoben. Im Genaueren ist das der Findungsprozess eines passenden Modells. Im dem zuvor angeführten Beispiel wurde ein Polynom Model verwendet, aber 
+
+
+\section{}
+\newpage
+\bibliographystyle{plain}
+\bibliographystyle{alpha}
+\bibliography{sample}
+
+\end{document}
