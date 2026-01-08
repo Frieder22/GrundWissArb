@@ -1,4 +1,4 @@
-%!TeX spellcheck = ger
+%!TeX spellcheck = de_DE
 
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc} % For utf encoding
@@ -18,6 +18,7 @@
 \usepackage[numbib,nottoc]{tocbibind} % table of contents
 \usepackage{cite} % citing
 \usepackage{hyperref}
+\usepackage{subcaption}
 % Space for some Declarations
 
 \geometry{
@@ -81,29 +82,79 @@ Ein einfaches Beispiel aus der Physik, wäre beispielsweise die Messung der Höh
 In dem angeführten Beispiel sind wir von einer Theorie ausgegangen, die einen quadratischen Zusammenhang erklärt, bzw. es sei ein bestimmter Zusammenhang erkennbar. Beides ist in komplexeren Anwendungsbereichen nicht gegeben. Auch wie eine Funktion (in vorherigem Falle eine Parabel) an Datenpunkte angepasst werden kann, ohne dass ein Mensch eine ungefähre Linie zeichnet, ist noch nicht geklärt. Daher wollen wir ein etwas allgemeineres, aber immer noch leicht verständliches Beispiel anführen.\\
 Angenommen wir haben $n$ Datenpunkte $(x_i, y_i)$ und gehen davon aus, dass es einen Zusammenhang $f(x)=y$ gibt. Außerdem wollen wir möglichst gute Vorhersagen für $x$ treffen, die wir noch nicht in unserem Datensatz haben. Dann können wir die Funktion $f$ durch ein Polynom 
 \begin{align*}
-    p(x) = \sum_{i=j}^N a_j\cdot x^j
+    p(x) = \sum_{j=0}^P a_j\cdot x^j
 \end{align*}
-annähern. Der Grad des Polynoms ist dabei offensichtlich $N$ und es gibt mit $a_0,\dots, a_{N}$ insgesamt $N+1$ freie Parameter. Wir benötigen nun eine Regel, die dafür sorgt, dass das Polynom möglichst gut an die Daten anpasst wird. Dafür wird eine Fehlerfunktion definiert. Für dieses Beispiel nutzen wir die Mean-Squared-Error(MSE) Funktion
+annähern. Der Grad des Polynoms ist dabei offensichtlich $P$ und es gibt mit $a_0,\dots, a_{P}$ insgesamt $P+1$ freie Parameter. Wir benötigen nun eine Regel, die dafür sorgt, dass das Polynom möglichst gut an die Daten anpasst wird. Dafür wird eine Fehlerfunktion definiert. Für dieses Beispiel nutzen wir die Mean-Squared-Error(MSE) Funktion
 \begin{align}
-    MSE = \frac{1}{n}\sum_{i=1}^n (\hat{y}_i - y_i)^2, \label{MSE}
+    E_{\mathrm{MSE}} = \frac{1}{n}\sum_{i=1}^n (\hat{y}_i - y_i)^2, \label{MSE}
 \end{align}
 die einer der bekanntesten Fehlerfunktionen ist\cite{MSE}.
 Dabei sind $\hat{y}_i$ die Vorhersagen unseres Modells für die bekannten $x_i$. Da das Polynom $p(x)$ unsere Vorhersage zu einem Wert $x$ ist, ist $\hat{y}_i = p(x_i)$. Die Fehlerfunktion \ref{MSE} summiert daher die quadratischen Abstände zwischen ursprünglichen und vorhergesagten Werten auf und normiert sie mit der Anzahl der Datenpunkte $n$. Intuitiv erhalten wir daher nun 
 eine Funktion die monoton steigt je weiter die vorhergesagten Werte von den tatsächlichen entfernt liegt. Diese (Fehler-)Funktion gilt es nun zu minimieren. Dies soll über Anpassungen der  Parameter geschehen, also können wir das Problem als
 \begin{align}
-    \min_{\{a_0,\dots, a_{N}\}}  \frac{1}{n}\sum_{i=1}^n (\hat{y}_i - y_i)^2 \label{LMSE}
+    \min_{\{a_0,\dots, a_{P}\}}  \frac{1}{n}\sum_{i=1}^n (\hat{y}_i - y_i)^2 \label{LMSE}
 \end{align}
-schreiben. Oft wird der Faktor $\frac{1}{n}$ weggelassen, was dann der \emph{Methode der kleinsten Quadrate} entspricht \cite{LMSE}. Ein solches Minimierungsproblem wie aus Gleichung\ref{LMSE} kann auf verschiedene Arten gelöst werden. In unserem genannten Fall ist das sogar analytisch möglich, in dem man einfach nach den Gewichten ableitet und eine Nullstelle in der Ableitung sucht\cite{LMSE}. Eine gängige Methode für komplexere Probleme ist der sogenannte \emph{gradient descent} (dt. Gradientenabstieg) \cite{Hollstein2023}. Hier wird iterativ die Ableitung nach den Parametern numerisch lokal angenähert und durch Bewegen des aktuellen Parameter-Vorschlags in Richtung des absteigenden Gradienten versucht, ein globales Minimum zu finden. Um ein möglichst globales Minimum zu finden gibt es verschiedenste Abwandlungen von diesem Algorithmus \cite{Hollstein2023}, auf die hier aber nicht explizit eingegangen wird.\\
-Die Ideen, die hier anhand eines recht einfachen Beispiels vorgestellt werden, gelten aber auch für komplexe Probleme. Beispielsweise können Bilder klassifiziert werden. Dafür werden statt eines simplen Polynoms künstliche Neuronales Netze jeglicher Art verwendet \cite{paternRec}. Es gibt auch andere Fehlerfunktionen, die für verschiedene Einsatzbereiche unterschiedlich gute Ergebnisse liefern. Auch die verwendeten Strategien um ein Minimum der Fehlerfunktion zu verwenden variieren. Für dieses Essay ist jedenfalls das Konzept wichtig, dass an statistisch gestreute Daten ein Model angepasst wird indem die Parameter so verändert werden, dass eine Fehlerfunktion minimiert wird. Damit erwartet man, dass das Modell danach für neue Daten gute Vorhersagen treffen kann.
+schreiben. Oft wird der Faktor $\frac{1}{n}$ weggelassen, was dann der \emph{Methode der kleinsten Quadrate} entspricht \cite{LMSE}. Ein solches Minimierungsproblem wie aus Gleichung \ref{LMSE} kann auf verschiedene Arten gelöst werden. In unserem genannten Fall ist das sogar analytisch möglich, in dem man einfach nach den Gewichten ableitet und eine Nullstelle in der Ableitung sucht\cite{LMSE}. Eine gängige Methode für komplexere Probleme ist der sogenannte \emph{gradient descent} (dt. Gradientenabstieg) \cite{Hollstein2023}. Hier wird iterativ die Ableitung nach den Parametern numerisch lokal angenähert und durch Bewegen des aktuellen Parameter-Vorschlags in Richtung des absteigenden Gradienten versucht, ein globales Minimum zu finden. Um ein möglichst globales Minimum zu finden gibt es verschiedenste Abwandlungen von diesem Algorithmus \cite{Hollstein2023}, auf die hier aber nicht explizit eingegangen wird.\\
+Die Ideen, die hier anhand eines recht einfachen Beispiels vorgestellt werden, gelten aber auch für komplexe Probleme. Beispielsweise können Bilder klassifiziert werden. Dafür werden statt eines simplen Polynoms künstliche Neuronales Netze jeglicher Art verwendet \cite{paternRec}. Es gibt auch andere Fehlerfunktionen, die für verschiedene Einsatzbereiche unterschiedlich gute Ergebnisse liefern. Auch die verwendeten Strategien um ein Minimum der Fehlerfunktion zu verwenden variieren. Für dieses Essay ist jedenfalls das Konzept wichtig, dass an statistisch gestreute Daten ein Modell angepasst wird indem die Parameter so verändert werden, dass eine Fehlerfunktion minimiert wird. Damit erwartet man, dass das Modell danach für neue Daten gute Vorhersagen treffen kann.
 
-\section{Finden des passenden Modell: Underfitting und Overfitting}
-In vorherigem Abschnitt wurde ein Aspekt auf die Seite geschoben. Im Genaueren ist das der Findungsprozess eines passenden Modells. Im dem zuvor angeführten Beispiel wurde ein Polynom Model verwendet, aber 
+\section{Finden des passenden Modells: Underfitting und Overfitting}
+In vorherigem Abschnitt wurde ein Aspekt nicht beachtet. Im Genaueren ist das der Findungsprozess eines passenden Modells. Bei dem zuvor angeführten Beispiel wurde ein Polynom als Modell verwendet, da man mit einem Polynom fast jede Funktion gut annähern kann. Wie hoch der Grad des Polynoms dabei sein soll haben wir aber außer acht gelassen. Diese Entscheidung ist aber wichtig und kann die Qualität von Vorhersagen unbekannter Werte stark beeinflussen.\\
+Um die resultierenden Effekte zu zeigen haben wir das vorherige Beispiel für einen konkreten Fall ausprobiert. Als wahren ursprünglichen Zusammenhang haben wir die Sinus-Funktion $f(x)=\sin(\pi x)$ definiert. Dann wurden zufällig vier $x$-Werte aus dem Intervall $[0,1]$ ausgewählt. Für diese Werte wurden die korrekten $y$-Werte ausgerechnet auf welche aber noch ein zufälliger normalverteilter Wert addiert wurde, wodurch statistisch streuende Werte simuliert werden sollen. An diese 4 Wertepaare wurden dann verschiedene Polynome verschiedenen Grades angepasst.
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.32\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{plots/fittingexample1.png}
+		\caption{Grad $g=1$}
+		\label{fig:degree1}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.32\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{plots/fittingexample2.png}
+		\caption{Grad $g=2$}
+		\label{fig:degree2}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.32\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{plots/fittingexample3.png}
+		\caption{Grad $g=3$}
+		\label{fig:degree3}
+	\end{subfigure}
+	\caption{Graphische Darstellung von angepassten Polynomen an vier statistisch streuende Datenpunkte. Es wurde ein Polynom mit einem Grad $g=1$, $g=2$, $g=3$ angepasst. Als Referenz ist jeweils auch die ursprüngliche Funktion in blau aufgetragen.}
+	\label{fig:PolyFits}
+\end{figure}
+Die Resultate sind in Abbildung \ref{fig:PolyFits} zu sehen.\\
+Für den ersten Fall in Abbildung \ref{fig:degree1} wurde ein Polynom ersten Grades verwendet. Es ist zu erkennen, dass das Modell weder gut zu den einzelnen Datenpunkten noch zu dem ursprünglichen Zusammenhang passt. Man kann auch nicht erwarten, dass eine andere Gerade besser passen könnte. Das lineare Modell ist also zu unflexibel um sich dem tatsächlichen Zusammenhang gut anzupassen. Dieses Phänomen wird \emph{underfitting} \cite{Hastie2009} genannt. Dem Gegenüber steht \emph{overfitting}\cite{Hastie2009}, was in Abbildung \ref{fig:degree3} dargestellt ist. Hier wird ein Polynom dritten Grades an die vier Datenpunkte angepasst. Da ein Polynom $n$-ten Grades durch $n+1$ Punkte eindeutig  bestimmt ist \cite{Schwarz2011}, liegen alle Datenpunkte perfekt auf dem Graphen der angepassten Funktion. Das Problem hierbei ist, dass die Funktion zwar alle Datenpunkte perfekt abdeckt, aber überhaupt nicht mehr zu dem ursprünglichen Zusammenhang passt. Das Modell sagt also sehr gut bekannte Werte voraus, aber für neue unbekannte Werte werden komplett falsche Werte vorhergesagt. Im Vergleich ist zu erkennen, dass das Modell mit einem Grad von $g=2$ (gezeigt in Abbildung \ref{fig:degree2}) zu dem ursprünglichen Zusammenhang passt.\\
+In dieser Analyse der drei verschiedenen Modelle haben wir den originalen Zusammenhang als Referenz zu Verfügung gehabt und konnten damit die Qualität der verschiedenen Varianten bewerten. Normalerweise ist dies offensichtlich nicht der Fall. Eine Strategie ist den ursprünglichen Datensatz in einen Trainings- und Testdatensatz aufzuteilen. Die Idee ist hier das Modell mit dem Trainingsdatensatz anzupassen und danach mit dem Testdatensatz zu testen, wie gut neue unbekannte Daten von dem ausgewählten Modell vorhergesagt werden \cite{Hastie2009}. Dabei beschreiben \emph{Trainingsfehler} und \emph{Testfehler}, wie gut das Modell Daten aus den jeweiligen Datensätzen vorhersagt. Berechnet wird der Testfehler mit der ursprünglichen Fehlerfunktion und wäre in unserem Beispiel wieder Gleichung \ref{MSE}. \\
+Erwähnenswert ist hier, dass es noch andere Strategien gibt, die grundsätzlich die selbe Idee nutzen, aber noch zusätzlich andere Vorteile bieten. Beispielsweise sorgt \emph{cross-validation} für eine robustere Testfehlerschätzung bei dünner Datenlage oder ein Aufteilung in Trainings-, Validierungs- und Testdaten für einen geringeren Bias des Testfehlers \cite{Hastie2009}.\\
+
+\subsection{Wie Overfitting umgangen werden kann}
+Um eine Unter- oder Überanpassung des Modells an die Daten zu vermeiden ist zu aller erst die Zuvor beschriebene Erhebung des Testfehlers wichtig. Im Allgemeinen ist nun der Testfehler die wichtigste Metrik, die minimiert werden soll.\\
+Um Underfitting zu umgehen gibt es eigentlich nur eine Möglichkeit: Das Modell muss flexibler werden. Dazu muss meist die \emph{Komplexität} erhöht werden. Gemeint ist damit, dass sich die Anzahl der freien Parameter erhöht werden muss. In unserem Beispiel sind die freien Parameter die Faktoren $\{a_0, \cdot a_P\}$ der einzelnen Terme des Polynom. Daher steigt die Komplexität des Modells mit dem Grad des Polynoms. In der Art und Weise wie genau die Komplexität angepasst werden soll, liegt genau die in dem Essay zu diskutierende Kontroverse und wird im nächsten Abschnitt genauer dargestellt.\\
+Als weitere Maßnahme um Overfitting zu verhindern, kann das Modell sich selbst regularisieren. Dazu wird der Fehlerfunktion ein Strafterm addiert, der größer wird, je größer die Gewichte werden. Dabei gibt es zwei standardmäßige Strategien. In der \emph{Lasso} Strategie werden die absolut Beträge der Parameter aufeinander addiert. In der \emph{Ridge} Strategie werden die Parameter quadriert und dann aufeinander addiert \cite{Hastie2009chapter3}. Die Fehlerfunktion von Gleichung \ref{MSE} könnte mit Ridge Regularisierung erweitert werden. Die neue Fehlerfunktion $E$ wäre dann
+\begin{align}
+	    E = \frac{1}{n}\sum_{i=1}^n (\hat{y}_i - y_i)^2 + \lambda \sum_{j=0}^{P} a_j^2, \label{Ridge}
+\end{align}
+wobei mit $\lambda$ die Stärke der Regularisierung eingestellt werden kann. Von einer solchen Regularisierung erwartet man, dass unnötige Komponenten (in unserem Beispiel $x^i$ Komponenten) klein gehalten werden und nur Komponenten aktiviert sind, die wirklich den einfachsten Zusammenhang erklären. Oft werden auch Lasso, Ridge und andere Regularisierungen miteinander kombiniert. \\
+Eine weiterer wichtiger Aspekt ist, dass eine bessere (größere) Datenlage Überanpassung verhindern kann \cite{moreData}. Natürlich hat man nicht immer beliebig viele Daten zu Verfügung, aber es von großer Relevanz zu wissen, dass mehr Daten im Allgemeinen bessere Modelle produzieren. Hier gibt es auch verschiedenste Strategien bereits vorhandene Daten abzuändern. Diese Methode wird \emph{Data Augmentation} genannt. Beispielsweise können für Modelle, die Bilder klassifizieren sollen, die Trainingsbilder gespiegelt, vergrößert oder leicht verzerrt werden um neue Daten im Trainingsprozess zu nutzen \cite{dataAugmentation}.
+
+\section{Die unvollständige Idee eines globalen Minimums des Testfehlers in aktueller Literatur}
+Wie im vorherigen Abschnitt angekündigt erwarten wir einen Zusammenhang zwischen Testfehler und Komplexität des Modells. In aktuellen Lehrbüchern und auch in Lehrveranstaltungen wird der Zusammenhang oft als Badewannenkurve beschrieben. Für Modelle mit kleiner Komplexität ist der Testfehler hoch, sinkt dann ab auf ein Plateau bzw. ein Minimum und steigt dann wieder für hohe Komplexität. Dabei wird oft auch eine Grafik wie 
 
 
-\section{}
+
+
 \newpage
 \bibliographystyle{plain}
 \bibliographystyle{alpha}
 \bibliography{sample}
+
+\newpage
+\appendix
+\section{Anhang}
+asd
+
 
 \end{document}
