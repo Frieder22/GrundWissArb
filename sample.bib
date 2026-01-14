@@ -1,10 +1,12 @@
 % definition sattistisches Modell
-@inbook{Cox_2006,
+@InCollection{Cox_2006,
 place={Cambridge},
 title={Randomization-based analysis},
 booktitle={Principles of Statistical Inference},
 publisher={Cambridge University Press},
-author={Cox, D. R.}, year={2006}, pages={178–193}
+author={Cox, D. R.},
+year={2006},
+pages={178–193}
 }
 
 % MSE
@@ -44,7 +46,7 @@ author={Cox, D. R.}, year={2006}, pages={178–193}
 }
 
 % für eindeutigkeit von polynomen
-@Inbook{Schwarz2011,
+@InCollection{Schwarz2011,
 author="Schwarz, Hans Rudolf
 and K{\"o}ckler, Norbert",
 title="Interpolation und Approximation",
@@ -61,11 +63,11 @@ url="https://doi.org/10.1007/978-3-8348-8166-3_4"
 
 % BEschreibung over- und under-fitting
 % Plot variance/Bias
-@Inbook{Hastie2009,
+@InCollection{Hastie2009,
 	author="Hastie, Trevor
 	and Tibshirani, Robert
 	and Friedman, Jerome",
-	title="Model Assessment and Selection",
+	title="Chapter 7: Model Assessment and Selection",
 	bookTitle="The Elements of Statistical Learning: Data Mining, Inference, and Prediction",
 	year="2009",
 	publisher="Springer New York",
@@ -77,11 +79,11 @@ url="https://doi.org/10.1007/978-3-8348-8166-3_4"
 }
 
 %for Lasso and Ridge Regularization
-@Inbook{Hastie2009chapter3,
+@InCollection{Hastie2009chapter3,
 	author="Hastie, Trevor
 	and Tibshirani, Robert
 	and Friedman, Jerome",
-	title="Linear Methods for Regression",
+	title="Chapter 3: Linear Methods for Regression",
 	bookTitle="The Elements of Statistical Learning: Data Mining, Inference, and Prediction",
 	year="2009",
 	publisher="Springer New York",
@@ -118,8 +120,8 @@ url="https://doi.org/10.1007/978-3-8348-8166-3_4"
 	abstract = {To ensure good performance, modern machine learning models typically require large amounts of quality annotated data. Meanwhile, the data collection and annotation processes are usually performed manually, and consume a lot of time and resources. The quality and representativeness of curated data for a given task is usually dictated by the natural availability of clean data in the particular domain as well as the level of expertise of developers involved. In many real-world application settings it is often not feasible to obtain sufficient training data. Currently, data augmentation is the most effective way of alleviating this problem. The main goal of data augmentation is to increase the volume, quality and diversity of training data. This paper presents an extensive and thorough review of data augmentation methods applicable in computer vision domains. The focus is on more recent and advanced data augmentation techniques. The surveyed methods include deeply learned augmentation strategies as well as feature-level and meta-learning-based data augmentation techniques. Data synthesis approaches based on realistic 3D graphics modeling, neural rendering, and generative adversarial networks are also covered. Different from previous surveys, we cover a more extensive array of modern techniques and applications. We also compare the performance of several state-of-the-art augmentation methods and present a rigorous discussion of the effectiveness of various techniques in different scenarios of use based on performance results on different datasets and tasks.}
 }
 
-% Textbook only using variance Bias tradeoff
-@Inbook{Wang2025,
+% Textbook picture using variance Bias tradeoff
+@InCollection{Wang2025,
 	author="Wang, Wenmin",
 	title="Supervised Learning Paradigm",
 	bookTitle="Principles of Machine Learning: The Three Perspectives",
@@ -131,4 +133,125 @@ url="https://doi.org/10.1007/978-3-8348-8166-3_4"
 	isbn="978-981-97-5333-8",
 	doi="10.1007/978-981-97-5333-8_8",
 	url="https://doi.org/10.1007/978-981-97-5333-8_8"
+}
+
+
+% article for double descent
+@article{Belkin_2019,
+	title={Reconciling modern machine-learning practice and the classical bias–variance trade-off},
+	volume={116},
+	ISSN={1091-6490},
+	url={http://dx.doi.org/10.1073/pnas.1903070116},
+	DOI={10.1073/pnas.1903070116},
+	number={32},
+	journal={Proceedings of the National Academy of Sciences},
+	publisher={Proceedings of the National Academy of Sciences},
+	author={Belkin, Mikhail and Hsu, Daniel and Ma, Siyuan and Mandal, Soumik},
+	year={2019},
+	month=jul, pages={15849–15854} 
+}
+
+% Openai on double descent
+@misc{openAI,
+	title={Deep Double Descent: Where Bigger Models and More Data Hurt}, 
+	author={Preetum Nakkiran and Gal Kaplun and Yamini Bansal and Tristan Yang and Boaz Barak and Ilya Sutskever},
+	year={2019},
+	eprint={1912.02292},
+	archivePrefix={arXiv},
+	primaryClass={cs.LG},
+	url={https://arxiv.org/abs/1912.02292}, 
+}
+
+% Picture 
+@Incollection{James2021,
+	author="James, Gareth
+	and Witten, Daniela
+	and Hastie, Trevor
+	and Tibshirani, Robert",
+	title="Resampling Methods",
+	bookTitle="An Introduction to Statistical Learning: with Applications in R",
+	year="2021",
+	publisher="Springer US",
+	address="New York, NY",
+	pages="197--223",
+	abstract="Resampling methods are an indispensable tool in modern statistics. They involve repeatedly drawing samples from a training set and refitting a model of interest on each sample in order to obtain additional information about the fitted model.",
+	isbn="978-1-0716-1418-1",
+	doi="10.1007/978-1-0716-1418-1_5",
+	url="https://doi.org/10.1007/978-1-0716-1418-1_5"
+}
+
+
+% article that describes double descent as a new phenomenon
+@article{Belkin_2019,
+	title={Reconciling modern machine-learning practice and the classical bias–variance trade-off},
+	volume={116},
+	ISSN={1091-6490},
+	url={http://dx.doi.org/10.1073/pnas.1903070116},
+	DOI={10.1073/pnas.1903070116},
+	number={32},
+	journal={Proceedings of the National Academy of Sciences},
+	publisher={Proceedings of the National Academy of Sciences},
+	author={Belkin, Mikhail and Hsu, Daniel and Ma, Siyuan and Mandal, Soumik},
+	year={2019},
+	month=jul, pages={15849–15854} 
+}
+
+% article  that also states double descent 1
+@article{DD1,
+	author       = {Mohammad Pezeshki and
+	Amartya Mitra and
+	Yoshua Bengio and
+	Guillaume Lajoie},
+	title        = {Multi-scale Feature Learning Dynamics: Insights for Double Descent},
+	journal      = {CoRR},
+	volume       = {abs/2112.03215},
+	year         = {2021},
+	url          = {https://arxiv.org/abs/2112.03215},
+	eprinttype    = {arXiv},
+	eprint       = {2112.03215},
+	timestamp    = {Wed, 08 Dec 2021 14:48:59 +0100},
+	biburl       = {https://dblp.org/rec/journals/corr/abs-2112-03215.bib},
+	bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+% article  that also states double descent 2
+@ARTICLE{DD2,
+	
+	author={Lee, Eng Hock and Cherkassky, Vladimir},
+	
+	journal={IEEE Transactions on Neural Networks and Learning Systems}, 
+	
+	title={Understanding Double Descent Using VC-Theoretical Framework}, 
+	
+	year={2024},
+	
+	volume={35},
+	
+	number={12},
+	
+	pages={18838-18847},
+	
+	keywords={Training;Support vector machines;Complexity theory;Training data;Data models;Convergence;Upper bound;Complexity control;deep learning (DL);double descent;generalization bounds;networks with random weights;structural risk minimization (SRM);VC-dimension},
+	
+	doi={10.1109/TNNLS.2024.3388873}}
+
+@misc{DD3,
+	title={Evaluating Double Descent in Machine Learning: Insights from Tree-Based Models Applied to a Genomic Prediction Task}, 
+	author={Guillermo Comesaña Cimadevila},
+	year={2025},
+	eprint={2509.25216},
+	archivePrefix={arXiv},
+	primaryClass={cs.LG},
+	url={https://arxiv.org/abs/2509.25216}, 
+}
+
+% double descent openAI
+@misc{openAI,
+	title={Deep Double Descent: Where Bigger Models and More Data Hurt}, 
+	author={Preetum Nakkiran and Gal Kaplun and Yamini Bansal and Tristan Yang and Boaz Barak and Ilya Sutskever},
+	year={2019},
+	eprint={1912.02292},
+	archivePrefix={arXiv},
+	primaryClass={cs.LG},
+	url={https://arxiv.org/abs/1912.02292}, 
 }

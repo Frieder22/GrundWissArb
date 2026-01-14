@@ -140,21 +140,78 @@ Als weitere Maßnahme um Overfitting zu verhindern, kann das Modell sich selbst 
 wobei mit $\lambda$ die Stärke der Regularisierung eingestellt werden kann. Von einer solchen Regularisierung erwartet man, dass unnötige Komponenten (in unserem Beispiel $x^i$ Komponenten) klein gehalten werden und nur Komponenten aktiviert sind, die wirklich den einfachsten Zusammenhang erklären. Oft werden auch Lasso, Ridge und andere Regularisierungen miteinander kombiniert. \\
 Eine weiterer wichtiger Aspekt ist, dass eine bessere (größere) Datenlage Überanpassung verhindern kann \cite{moreData}. Natürlich hat man nicht immer beliebig viele Daten zu Verfügung, aber es von großer Relevanz zu wissen, dass mehr Daten im Allgemeinen bessere Modelle produzieren. Hier gibt es auch verschiedenste Strategien bereits vorhandene Daten abzuändern. Diese Methode wird \emph{Data Augmentation} genannt. Beispielsweise können für Modelle, die Bilder klassifizieren sollen, die Trainingsbilder gespiegelt, vergrößert oder leicht verzerrt werden um neue Daten im Trainingsprozess zu nutzen \cite{dataAugmentation}.
 
-\section{Die unvollständige Idee eines globalen Minimums des Testfehlers in aktueller Literatur}
-Wie im vorherigen Abschnitt angekündigt erwarten wir einen Zusammenhang zwischen Testfehler und Komplexität des Modells. In aktuellen Lehrbüchern und auch in Lehrveranstaltungen wird der Zusammenhang oft als Badewannenkurve beschrieben. Für Modelle mit kleiner Komplexität ist der Testfehler hoch, sinkt dann ab auf ein Plateau bzw. ein Minimum und steigt dann wieder für hohe Komplexität. Dabei wird oft auch eine Grafik wie 
+\section{Die unvollständige Idee eines globalen Minimums des Testfehlers in der Literatur}
+Wie in dem vorherigen Abschnitt angeführten Vergleich erkennbar, hat die Modellkomplexität einen Einfluss auf den Testfehler. Es ist denkbar, dass es eine Region gibt, in welcher der Testfehler ein Minimum aufweist. Mann könnte erwarten, dass die optimale Modellkomplexität zwischen dem Bereich von Overfitting und dem Bereich von Underfitting liegt. Um diesen Punkt zu finden werden einfach verschiedene Modellkomplexitäten ausprobiert und der Testfehler dagegen aufgetragen. Mit der Idee eines Minimums im Testfehler würden wir eine Badewannenkurve erwarten. Eine solche Kurve ist auch vielen Lehrbüchern zu finden. Ein solcher Graph ist in Abbildung \ref{fig:Hastie} zu sehen. Im Anhang \ref{anhang} sind weitere Beispiele zu finden.
+Eines der Beispiele (Abbildung \ref{fig:Tuwien}) ist dabei aus einer Vorlesung des Sommersemesters 2023.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{pics/Hastie.png}
+	\caption{Darstellung des Testfehlers (rot) und des Trainingsfehlers (blau) in Abhängigkeit der Freiheitsgrade aus \cite{Hastie2009}. Die stark eingefärbten Linien beschreiben Mittelwerte der transparenten Linien.}
+	\label{fig:Hastie}
+\end{figure}
 
-
-
+Die Abbildungen haben alle eine Gemeinsamkeit. In dem gezeigten Wertebereich ist nur ein lokales Minimum im Testfehler zu erkennen, welches auch in diesem Bereich dann ein globales Minimum darstellt. Allerdings stellt sich dieses Bild als unvollständig heraus.\\
+In neueren Quellen (ab ca. 2019) wie beispielsweise durch Belkin et al. \cite{Belkin_2019} wird darauf hingewiesen, dass nach dem Anstieg des Testfehlers für höhere Modellkomplexität der Testfehler wieder abfällt. Dazu wird eine Grafik wie in Abbildung \ref{fig:doubleDescent} zur Erklärung verwendet.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{pics/doubleDescent_scheme.png}
+	\caption{}
+	\label{fig:doubleDescent}
+\end{figure}
+Diese Behauptung wird Anhand mehrerer Experimente auch validiert. Dabei werden auch unterschiedliche Arten von Modellen verwendet. Getestet werden unter anderem ein Random Fourier Features (RFF) Modell, ein neuronales Netzwerk und ein Random Forest Modell (Ergebnisse abgebildet in Anhang \ref{anhangb}). Dieses Phänomen wird dabei als \emph{Double Descent}, also doppelter Abstieg, beschrieben. Es gibt auch viele weitere Artikel, die Double Descent beschreiben \cite{DD1, DD2, DD3}. Darunter sind unter anderem Artikel von führenden AI Unternehmen wie beispielsweise OpenAI mit dabei \cite{openAI}. Double Descent wird aktiv genutzt und führt zu der aktuellen Strategie von AI Unternehmen viel komplexere Modelle zu verwenden. Man kann zu recht behaupten, dass das Phänomen in der aktuellen Forschung durchweg bekannt ist. Auch in neuerer Fachliteratur wird Double Descent beschrieben \cite{Hastie2009}. Andererseits ist der deutschen Wikipedia (\href{wikipedia.org}{wikipedia.org}) noch kein Artikel zu Double Descent zu finden (aufgerufen am 12.1.2026). In der englischen Variante ist dazu ein Artikel zu finden. Interessant ist hier aber auch, dass auf der Seite des alten Modells (genannt Bias-variance tradeoff: \href{en.wikipedia.org/wiki/Bias–variance_tradeoff}{en.wikipedia.org/wiki/Bias–variance\_tradeoff}) im Text kein Hinweis auf das Phänomen Double Descent gegeben wird.\\
+Es ist aber auch wichtig zu erwähnen, dass das alte Bild nicht komplett falsch ist. James et al. \cite{James2021} schreiben dazu beispielsweise, dass Double Descent dem Bias-Variance Tradeoff nicht widerspricht. Zum eines sei es eine Erweiterung des Bildes und zum anderen gibt es auch 'einfachere' Modelle, die das Phänomen des zweiten Abstiegs nicht aufweisen. \\
+Eine Erklärung warum es diesen zweiten Abstieg überhaupt gibt, liefert unter anderen Belkin et al. \cite{Belkin_2019}. Zuerst ist die Beobachtung wichtig, dass das zweite Absinken des Testfehlers  erst geschieht, wenn der Trainingsfehler bei nahezu Null ist. 
 
 \newpage
 \bibliographystyle{plain}
-\bibliographystyle{alpha}
 \bibliography{sample}
 
 \newpage
 \appendix
-\section{Anhang}
-asd
+\section{Beispiele mit nur einem lokalen Minimum} \label{anhang}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{pics/James.png}
+	\caption{Darstellung des Testfehlers in Abhängigkeit der Modellkomplexität (auch Fleibilität) aus \cite{James2021}. Hier werden Testfehler von verschiedenen Validierungsmethoden verglichen (blau: naiver Testfehler, gestrichelt: LOOCV, orange: 10-fache Cross-Validation)}
+	\label{fig:James}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{pics/Wang.png}
+	\caption{Darstellung des Testfehlers in Abhängigkeit der Modellkomplexität aus \cite{Wang2025}.  Die rote Kennlinie stellt den Testfehler dar.}
+	\label{fig:Wang}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{pics/TUWien.png}
+	\caption{Darstellung des Testfehlers in Abhängigkeit der Modellkomplexität von der Vorlesung 'Machine Learning' des Sommersemesters 2023 an der TU Wien.}
+	\label{fig:Tuwien}
+\end{figure}
+
+\section{Beispiele für Double Descent} \label{anhangb}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{pics/DD1.png}
+	\caption{Double Descent erkennbar im Training eines Fully Connected Neural Network Modells. Dabei wurde einmal die zero-one Fehlerfunktion (links) und einmal MSE (rechts) als Fehlerfunktion verwendet \cite{Belkin_2019}.}
+	\label{fig:DD1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{pics/DD2.png}
+	\caption{Double Descent erkennbar im Training eines Random Forest models \cite{Belkin_2019}.}
+	\label{fig:DD2}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{pics/doubleDescent.png}
+	\caption{Double Descent erkennbar im Training eines Random Fourier Features (RFF) Modells \cite{Belkin_2019}.}
+	\label{fig:DD3}
+\end{figure}
 
 
 \end{document}
